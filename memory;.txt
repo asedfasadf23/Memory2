@@ -1,0 +1,53 @@
+package com.example.memory;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity {
+
+    TilesView view;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        // Связываем TilesView из XML
+        view = findViewById(R.id.view);
+    }
+
+    // Метод для кнопки "Restart"
+    public void onNewGameClick(View v) {
+        if (view != null) {
+            view.newGame(); // Перезапуск игры
+            Toast.makeText(this, "New game started!", Toast.LENGTH_SHORT).show(); // Уведомление
+        }
+    }
+}
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <!-- Кнопка Restart -->
+    <Button
+        android:id="@+id/btn_restart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Restart"
+        android:onClick="onNewGameClick" />
+
+    <!-- Игровая панель -->
+    <com.example.memory.TilesView
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>
