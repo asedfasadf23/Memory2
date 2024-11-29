@@ -21,7 +21,6 @@ import java.util.Collections;
 import java.util.Random;
 
 class Card {
-//    Paint p = new Paint();
     Bitmap frontImage;
     Bitmap backImage;
 
@@ -38,20 +37,11 @@ class Card {
         this.backImage = backImage;
     }
 
-//    int color, backColor = Color.DKGRAY;
-//    boolean isOpen = false; // цвет карты
-//    float x, y, width, height;
-
     public void draw(Canvas c) {
-        // нарисовать карту в виде цветного прямоугольника
 
         Bitmap toDraw = isOpen ? frontImage: backImage;
         c.drawBitmap(toDraw, x, y, null);
 
-//        if (isOpen) {
-//            p.setColor(color);
-//        } else p.setColor(backColor);
-//        c.drawRect(x,y, x+width, y+height, p);
     }
     public boolean flip (float touch_x, float touch_y) {
         if (touch_x >= x && touch_x <= x + width && touch_y >= y && touch_y <= y + height) {
@@ -63,15 +53,13 @@ class Card {
 }
 
 public class TilesView extends View {
-    // пауза для запоминания карт
-    final int PAUSE_LENGTH = 1; // в секундах
+    final int PAUSE_LENGTH = 1; 
     boolean isOnPauseNow = false;
 
-    // число открытых карт
     int openedCard = 0;
     ArrayList<Card> cards = new ArrayList<>();
 
-    int width, height; // ширина и высота канвы
+    int width, height; 
 
     Card firstCard = null;
     Card secondCard = null;
@@ -83,15 +71,6 @@ public class TilesView extends View {
         super(context, attrs);
         loadImages(context);
         newGame();
-//        // 1) заполнить массив tiles случайными цветами
-//        // сгенерировать поле 2*n карт, при этом
-//        // должно быть ровно n пар карт разных цветов
-//        cards.add(new Card(0,0, 200, 150, Color.YELLOW));
-//        cards.add(new Card(200+50, 0, 200 + 200 + 50, 150, Color.YELLOW));
-//
-//        cards.add(new Card(0,200, 200, 150 + 200, Color.RED));
-//        cards.add(new Card(200+50, 200, 200 + 200 + 50, 150+200, Color.RED));
-    }
 
     private void loadImages(Context context)
     {
@@ -113,9 +92,7 @@ public class TilesView extends View {
         super.onDraw(canvas);
         width = canvas.getWidth();
         height = canvas.getHeight();
-        // 2) отрисовка плиток
-        // задать цвет можно, используя кисть
-        //Paint p = new Paint();
+
         for (Card c: cards) {
             c.draw(canvas);
         }
@@ -125,16 +102,9 @@ public class TilesView extends View {
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN && !isOnPauseNow)
         {
-            // 3) получить координаты касания
-//            int x = (int) event.getX();
-//            int y = (int) event.getY();
+
             float x = event.getX();
             float y = event.getY();
-            // 4) определить тип события
-//            if (event.getAction() == MotionEvent.ACTION_DOWN && !isOnPauseNow)
-
-
-            // палец коснулся экрана
 
             for (Card c: cards) {
 
@@ -143,12 +113,7 @@ public class TilesView extends View {
                     if (openedCard == 0) {
                         firstCard = c;
                         openedCard ++;
-//                        if (c.flip(x, y)) {
-//                            Log.d("mytag", "card flipped: " + openedCard);
-//                            openedCard++;
-//                            invalidate();
-//                            return true;
-//
+
                     } else if (openedCard == 1) {
 
                         secondCard = c;
@@ -158,24 +123,7 @@ public class TilesView extends View {
                         PauseTask task = new PauseTask();
                         task.execute(PAUSE_LENGTH);
 
-//                        // перевернуть карту с задержкой
-//                        if (c.flip(x, y)) {
-//                            openedCard++;
-//                            // 1) если открылис карты одинакового цвета, удалить их из списка
-//                            // например написать функцию, checkOpenCardsEqual
-//
-//                            // 2) проверить, остались ли ещё карты
-//                            // иначе сообщить об окончании игры
-//
-//                            // если карты открыты разного цвета - запустить задержку
-//                            invalidate();
-//                            PauseTask task = new PauseTask();
-//                            task.execute(PAUSE_LENGTH);
-//                            isOnPauseNow = true;
-//                            return true;
-                    }
-                    // заставляет экран перерисоваться
-//        return true;
+
                     invalidate();
                     return true;
                 }
@@ -187,7 +135,6 @@ public class TilesView extends View {
 
 
     public void newGame() {
-        // запуск новой игры
 
         cards.clear();
         openedCard = 0;
@@ -203,16 +150,6 @@ public class TilesView extends View {
 
         Collections.shuffle(images);
 
-//        int numPairs = 8;
-//        ArrayList<Integer> colors = new ArrayList<>();
-//        Random random = new Random();
-//
-//        for (int i = 0; i < numPairs; i++)
-//        {
-//            colors.add(Color.rgb(random.nextInt(256), random.nextInt(256), random.nextInt(256)));
-//            colors.add(colors.get(i));
-//        }
-//        Collections.shuffle(colors);
 
         int numCols = 4;
         int numRows = 4;
@@ -232,18 +169,15 @@ public class TilesView extends View {
     class PauseTask extends AsyncTask<Integer, Void, Void> {
         @Override
         protected Void doInBackground(Integer... integers) {
-//            Log.d("mytag", "Pause started");
             try {
-                Thread.sleep(integers[0] * 1000); // передаём число секунд ожидания
+                Thread.sleep(integers[0] * 1000); 
             } catch (InterruptedException e)
             {
                 e.printStackTrace();
             }
-//            Log.d("mytag", "Pause finished");
             return null;
         }
 
-        // после паузы, перевернуть все карты обратно
 
 
         @Override
@@ -272,16 +206,6 @@ public class TilesView extends View {
                 Toast.makeText(getContext(), "You win", Toast.LENGTH_SHORT).show();
             }
 
-
-
-//            for (Card c: cards) {
-//                if (c.isOpen) {
-//                    c.isOpen = false;
-//                }
-//            }
-//            openedCard = 0;
-//            isOnPauseNow = false;
-//            invalidate();
         }
     }
 }
