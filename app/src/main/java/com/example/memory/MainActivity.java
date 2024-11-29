@@ -21,10 +21,9 @@ public class MainActivity extends AppCompatActivity {
 
         if (view != null)
         {
-            view.newGame(); // запустить игру заново
+            view.newGame(); 
             Toast.makeText(this, "New game started", Toast.LENGTH_SHORT).show();
         }
-        // very useful comment
 
     }
 }
